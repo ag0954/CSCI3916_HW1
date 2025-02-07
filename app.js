@@ -1,26 +1,23 @@
-var server = require("http").createServer();
+const express = require('express');
+const app = express();
 
-server.on("request", (request, response) => {
-    var body = [];
-    request.on("data", chunk => {
-        body.push(chunk);
-    });
-    request
-        .on("end", () => {
-            let bodyString = body.concat().toString();
-            console.log(bodyString);
-            response.end(bodyString);
-        })
-        .on("error", () => {
-            response.statusCode = 400;
-            response.end();
-        });
-    response.on("error", err => {
-        console.error(err);
-    });
+app.use(express.json());
+
+app.post('/', (req, res)=>{
+    const acceptHeader = req.get=('accept');
+    
+    const responseBody = {
+        acceptHeader: acceptHeader,
+        ...req.body
+    }
+    res.json(responseBody);
 });
-server.listen(process.env.PORT || 8008, () => {
-    console.log("Server listening at 8008");
+
+
+
+const port = process.env.PORT || 3000;
+const server = app.listen(port, ()=>{
+    console.log(`Server listening on Port ${port}`);
 });
 
 module.exports = server; // for testing
