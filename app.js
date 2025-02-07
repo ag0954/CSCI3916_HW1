@@ -4,7 +4,7 @@ const app = express();
 app.use(express.json());
 
 app.post('/', (req, res)=>{
-    const acceptHeader = req.get=('accept');
+    const acceptHeader = req.get('accept');
     
     const responseBody = {
         acceptHeader: acceptHeader,
